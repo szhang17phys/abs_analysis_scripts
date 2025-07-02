@@ -18,7 +18,7 @@ using namespace std;
 
 void singleOpChP1(string file_suffix, string output_path, Int_t opch, string opch_string) {
 
-    string file_name = "/Users/shuaixiangzhang/Work/current/FNAL_Work2024/rsl_analyses/v4_analysis/abs_explore/root_data/" + file_suffix + ".root";
+    string file_name = "/Users/shuaixiangzhang/Work/current/FNAL_Work2024/rsl_analyses/new_20250127/rsl_compare_result/root_data/" + file_suffix + ".root";
     cout<<"Root file : "<<file_name<<endl;
 
     TH1F* Opch_counts[40];//40 XArapucas---

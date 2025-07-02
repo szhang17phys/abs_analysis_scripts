@@ -52,11 +52,11 @@ void rsl_compareTMP(const std::string& path){
 
     const int num = 30; //num of slices---
 
-    std::string inputFile99 = path + "/rsl99_fitCLG1.txt";
-    std::string inputFile50 = path + "/abs10_fitCLG1.txt";
-    std::string inputFile70 = path + "/abs15_fitCLG1.txt";
-    std::string inputFile130 = path + "/abs25_fitCLG1.txt";
-    std::string inputFile150 = path + "/abs30_fitCLG1.txt";
+    std::string inputFile99 = path + "/corsika_rsl100_abs20_fitCLG1.txt";
+    std::string inputFile50 = path + "/corsika_rsl50_abs20_fitCLG1.txt";
+    std::string inputFile70 = path + "/corsika_rsl70_abs20_fitCLG1.txt";
+    std::string inputFile130 = path + "/corsika_rsl130_abs20_fitCLG1.txt";
+    std::string inputFile150 = path + "/corsika_rsl150_abs20_fitCLG1.txt";
 
 
     double dis99[num];
@@ -206,11 +206,11 @@ void rsl_compareTMP(const std::string& path){
     scatterGraph150->SetMarkerColor(kOrange);
     scatterGraph150->Draw("P SAME");
     
-    legend->AddEntry(scatterGraph150, "Abs = 10m", "pe");
-    legend->AddEntry(scatterGraph130, "Abs = 15m", "pe");
-    legend->AddEntry(scatterGraph, "Abs = 20m", "pe");
-    legend->AddEntry(scatterGraph70, "Abs = 25m", "pe");
-    legend->AddEntry(scatterGraph50, "Abs = 30m", "pe");
+    legend->AddEntry(scatterGraph150, "RSL = 150cm", "pe");
+    legend->AddEntry(scatterGraph130, "RSL = 130m", "pe");
+    legend->AddEntry(scatterGraph, "RSL = 100cm", "pe");
+    legend->AddEntry(scatterGraph70, "RSL = 70cm", "pe");
+    legend->AddEntry(scatterGraph50, "RSL = 50cm", "pe");
     legend->Draw();
 
 
@@ -226,7 +226,7 @@ void rsl_compareTMP(const std::string& path){
 
 
 
-//Drawing 2-------------------------------------------------------------------
+//Drawing 2------------------------------------------------------------
     TCanvas canvas2("fitDiff", "Different RSLs", 800, 600);
     TLegend* legend2 = new TLegend(0.6, 0.6, 0.9, 0.9);
 
@@ -288,10 +288,10 @@ void rsl_compareTMP(const std::string& path){
     graphDiff150->SetMarkerColor(kOrange);
     graphDiff150->Draw("P SAME");
     
-    legend2->AddEntry(graphDiff50, "Abs10 - Abs20", "pe");
-    legend2->AddEntry(graphDiff70, "Abs25 - Abs20", "pe");
-    legend2->AddEntry(graphDiff130, "Abs25 - Abs20", "pe");
-    legend2->AddEntry(graphDiff150, "Abs30 - Abs20", "pe");
+    legend2->AddEntry(graphDiff50, "RSL50 - RSL100", "pe");
+    legend2->AddEntry(graphDiff70, "RSL70 - RSL100", "pe");
+    legend2->AddEntry(graphDiff130, "RSL130 - RSL100", "pe");
+    legend2->AddEntry(graphDiff150, "RSL150 - RSL100", "pe");
     legend2->Draw();
 
 
@@ -299,7 +299,7 @@ void rsl_compareTMP(const std::string& path){
 
 
 
-//Drawing 3-------------------------------------------------------------------
+//Drawing 3-------------------------------------------------------------
     double bias50[num];//2*(mpv50-mpv99)/(mpv50+mpv99)---
     double bias70[num];
     double bias130[num];
@@ -324,7 +324,7 @@ void rsl_compareTMP(const std::string& path){
     }
 
     //bias50----------
-    TCanvas canvas3_rsl50("fitBias_abs10", "fit Bias", 800, 600);
+    TCanvas canvas3_rsl50("fitBias_rsl50", "fit Bias", 800, 600);
     TLegend* legend3_rsl50 = new TLegend(0.6, 0.7, 0.9, 0.9);
 
     TGraphErrors* graphBias50 = new TGraphErrors(num, dis50, bias50, nullptr, sigBias50);
@@ -337,12 +337,12 @@ void rsl_compareTMP(const std::string& path){
     graphBias50->GetYaxis()->SetTitle("2*(Absxx - Abs20)/(Absxx + Abs20)");
     graphBias50->GetXaxis()->SetRangeUser(0, 300);
 
-    legend3_rsl50->AddEntry(graphBias50, "Abs10", "pe");
+    legend3_rsl50->AddEntry(graphBias50, "RSL50", "pe");
     legend3_rsl50->Draw();
 
 
     //bias70----------
-    TCanvas canvas3_rsl70("fitBias_abs15", "fit Bias", 800, 600);
+    TCanvas canvas3_rsl70("fitBias_rsl70", "fit Bias", 800, 600);
     TLegend* legend3_rsl70 = new TLegend(0.6, 0.7, 0.9, 0.9);
 
     TGraphErrors* graphBias70 = new TGraphErrors(num, dis70, bias70, nullptr, sigBias70);
@@ -356,12 +356,12 @@ void rsl_compareTMP(const std::string& path){
     graphBias70->GetXaxis()->SetRangeUser(0, 300);
 //    graphBias70->Draw("P SAME");
 
-    legend3_rsl70->AddEntry(graphBias70, "Abs15", "pe");
+    legend3_rsl70->AddEntry(graphBias70, "RSL70", "pe");
     legend3_rsl70->Draw();
 
 
     //bias130----------
-    TCanvas canvas3_rsl130("fitBias_abs25", "fit Bias", 800, 600);
+    TCanvas canvas3_rsl130("fitBias_rsl130", "fit Bias", 800, 600);
     TLegend* legend3_rsl130 = new TLegend(0.6, 0.7, 0.9, 0.9);
 
     TGraphErrors* graphBias130 = new TGraphErrors(num, dis130, bias130, nullptr, sigBias130);
@@ -375,12 +375,12 @@ void rsl_compareTMP(const std::string& path){
     graphBias130->GetXaxis()->SetRangeUser(0, 300);
 //    graphBias130->Draw("P SAME");
 
-    legend3_rsl130->AddEntry(graphBias130, "Abs25", "pe");
+    legend3_rsl130->AddEntry(graphBias130, "RSL130", "pe");
     legend3_rsl130->Draw();
 
 
     //diff150
-    TCanvas canvas3_rsl150("fitBias_abs30", "fit Bias", 800, 600);
+    TCanvas canvas3_rsl150("fitBias_rsl150", "fit Bias", 800, 600);
     TLegend* legend3_rsl150 = new TLegend(0.6, 0.7, 0.9, 0.9);
 
     TGraphErrors* graphBias150 = new TGraphErrors(num, dis150, bias150, nullptr, sigBias150);
@@ -394,7 +394,7 @@ void rsl_compareTMP(const std::string& path){
     graphBias150->GetXaxis()->SetRangeUser(0, 300);
 //    graphBias150->Draw("P SAME");
 
-    legend3_rsl150->AddEntry(graphBias150, "abs30", "pe");
+    legend3_rsl150->AddEntry(graphBias150, "RSL150", "pe");
     legend3_rsl150->Draw();
 
 
@@ -408,10 +408,10 @@ void rsl_compareTMP(const std::string& path){
     graphBias130->Draw("P SAME");
     graphBias150->Draw("P SAME");
 
-    legend3_All->AddEntry(graphBias50, "Abs10", "pe");
-    legend3_All->AddEntry(graphBias70, "Abs15", "pe");
-    legend3_All->AddEntry(graphBias130, "Abs25", "pe");
-    legend3_All->AddEntry(graphBias150, "Abs30", "pe");
+    legend3_All->AddEntry(graphBias50, "RSL50", "pe");
+    legend3_All->AddEntry(graphBias70, "RSL70", "pe");
+    legend3_All->AddEntry(graphBias130, "RSL130", "pe");
+    legend3_All->AddEntry(graphBias150, "RSL150", "pe");
     legend3_All->Draw();
 
 
@@ -441,7 +441,7 @@ void rsl_compareTMP(const std::string& path){
 //==========Main Function===============================================
 void rsl_compare(){
 
-    rsl_compareTMP("/Users/shuaixiangzhang/Work/current/FNAL_Work2024/rsl_analyses/v4_analysis/abs_explore/results/e67_3000events_crtCut/fit_results/cathode");
+    rsl_compareTMP("/Users/shuaixiangzhang/Work/current/FNAL_Work2024/rsl_analyses/new_20250127/rsl_compare_result/results/combined_3k/fitted_results/cathode");
         
 
 }

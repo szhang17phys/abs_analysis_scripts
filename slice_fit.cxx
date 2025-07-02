@@ -21,6 +21,7 @@
 #include "RooAddPdf.h"
 #include "RooLinkedListIter.h"
 
+
 #include "TMinuit.h"
 
 //#include <gsl/gsl_integration.h>
@@ -206,28 +207,33 @@ FitResults CLG1(TH1F* hist, TFile* outputFile, const FitVars& vars, const char* 
     legend.SetTextSize(0.03);
     legend.AddEntry(histClone, "Original Histogram", "l");
     legend.AddEntry(frame->getObject(0), "Conv Landau + Gaus", "l");
+
     //Add fitting parameters to the legend
-    RooLinkedListIter iter = convoluted.getParameters(data)->iterator();
-    RooRealVar* var;
-    while ((var = dynamic_cast<RooRealVar*>(iter.Next()))) {
+    //suggested by ChatGPT, 20250702---
+    RooArgSet* params = convoluted.getParameters(data);
+    for (RooAbsArg* arg : *params) {
+        RooRealVar* var = dynamic_cast<RooRealVar*>(arg);
+        if (!var) continue;
+
         legend.AddEntry((TObject*)0, Form("%s = %.2f", var->GetName(), var->getVal()), "");
 
-        //store fitting results to struct---------
         const char* varName = var->GetName();
         double varValue = var->getVal();
         if (strcmp(varName, "mean") == 0) {
-                results.meanG = varValue;
+            results.meanG = varValue;
         } 
         else if (strcmp(varName, "width") == 0) {
-                results.widthL = varValue;
+            results.widthL = varValue;
         } 
         else if (strcmp(varName, "mpv") == 0) {
-                results.mpvL = varValue;
+            results.mpvL = varValue;
         } 
         else if (strcmp(varName, "sigma") == 0) {
-                results.sigmaG = varValue;
+            results.sigmaG = varValue;
         }
     }
+
+
 
     //Add the MPV of the convoluted function
     legend.AddEntry((TObject*)0, Form("MPV of Conv = %.3f", xPeak), "");
@@ -512,13 +518,13 @@ void DrawScatterWithLine(TH2F* hist2D, const double* distances, const double* mp
 //OLD Main function!---
 void slice_fitTMP(const std::string& rsl){
     //change file name each time-----------------------
-    string file_path = "/Users/shuaixiangzhang/Work/current/FNAL_Work2024/rsl_analyses/v4_analysis/abs_explore/results/e67_3000events_crtCut/";
-    string file_suffix = rsl + "_3000num_e67_crtCut.root";
-    string output_path = "/Users/shuaixiangzhang/Work/current/FNAL_Work2024/rsl_analyses/v4_analysis/abs_explore/results/e67_3000events_crtCut/fit_results/cathode/";
+    string file_path = "/Users/shuaixiangzhang/Work/current/FNAL_Work2024/rsl_analyses/new_20250127/rsl_compare_result/results/combined_3k/";
+    string file_suffix = rsl + "_3000num_crtCut.root";
+    string output_path = "/Users/shuaixiangzhang/Work/current/FNAL_Work2024/rsl_analyses/new_20250127/rsl_compare_result/results/combined_3k/fitted_results/cathode/";
     string output_name = "fitCLG1";
 
     //store fitting results at txt file---
-    std::ofstream outputTxt("/Users/shuaixiangzhang/Work/current/FNAL_Work2024/rsl_analyses/v4_analysis/abs_explore/results/e67_3000events_crtCut/fit_results/cathode/"+rsl+"_fitCLG1.txt");
+    std::ofstream outputTxt(output_path+rsl+"_fitCLG1.txt");
 
     //Choose the slice you want to look at!---
     //Define the X(distance) values where you want to extract data---
@@ -651,31 +657,50 @@ void slice_fitTMP(const std::string& rsl){
 
 
         //single point correction------------------------------
-        if(rsl == "abs10" && distances[i] == 105){
-            FitVars varsTMP = vars;
-            varsTMP.meanIni = 0.0;
-            varsTMP.mpvIni = 15.0;
-            tmpResults = CLG1(hists[i], outputFile, varsTMP, name); 
-        }  
-        else if(rsl == "abs10" && distances[i] == 115){
+        if(rsl == "corsika_rsl100_abs20" && distances[i] == 65){
             FitVars varsTMP = vars;
             varsTMP.meanIni = 0.0;
             varsTMP.mpvIni = 12.0;
             tmpResults = CLG1(hists[i], outputFile, varsTMP, name); 
         }  
-        else if(rsl == "abs10" && distances[i] == 185){
+        else if(rsl == "corsika_rsl100_abs20" && distances[i] == 135){
             FitVars varsTMP = vars;
-            varsTMP.meanIni = 0.0;
+            varsTMP.meanIni = 0;
             varsTMP.mpvIni = 6.0;
             tmpResults = CLG1(hists[i], outputFile, varsTMP, name); 
-        }
-        else if(rsl == "abs10" && distances[i] == 195){
+        }  
+        else if(rsl == "corsika_rsl100_abs20" && distances[i] == 145){
             FitVars varsTMP = vars;
             varsTMP.meanIni = 0.0;
+            varsTMP.meanMin = 0.0;
+            varsTMP.meanMax = 0.0;
             varsTMP.mpvIni = 5.5;
             tmpResults = CLG1(hists[i], outputFile, varsTMP, name); 
-        }          
-        else if(rsl == "abs10" && distances[i] == 215){
+        }
+        else if(rsl == "corsika_rsl100_abs20" && distances[i] == 155){
+            FitVars varsTMP = vars;
+            varsTMP.meanIni = 0.0;
+            varsTMP.mpvIni = 5.0;
+            tmpResults = CLG1(hists[i], outputFile, varsTMP, name); 
+        }   
+        else if(rsl == "corsika_rsl100_abs20" && distances[i] == 195){
+            FitVars varsTMP = vars;
+            varsTMP.meanIni = 0.0;
+            varsTMP.meanMin = 0.0;
+            varsTMP.meanMax = 0.0;
+            varsTMP.mpvIni = 3.8;
+            tmpResults = CLG1(hists[i], outputFile, varsTMP, name); 
+        }        
+        else if(rsl == "corsika_rsl100_abs20" && distances[i] == 225){
+            FitVars varsTMP = vars;
+            varsTMP.meanIni = 0.0;
+            varsTMP.meanMin = 0.0;
+            varsTMP.meanMax = 0.0;
+            varsTMP.mpvIni = 3.0;
+            tmpResults = CLG1(hists[i], outputFile, varsTMP, name); 
+        } 
+
+        else if(rsl == "corsika_rsl50_abs20" && distances[i] == 145){
             FitVars varsTMP = vars;
             varsTMP.meanIni = 0.0;
             varsTMP.meanMin = 0.0;
@@ -683,62 +708,80 @@ void slice_fitTMP(const std::string& rsl){
             varsTMP.mpvIni = 5.0;
             tmpResults = CLG1(hists[i], outputFile, varsTMP, name); 
         } 
-
-        else if(rsl == "abs15" && distances[i] == 105){
+        else if(rsl == "corsika_rsl50_abs20" && distances[i] == 155){
             FitVars varsTMP = vars;
-            varsTMP.meanIni = 9.0;
-            varsTMP.mpvIni = 9.0;
-            tmpResults = CLG1(hists[i], outputFile, varsTMP, name); 
-        } 
-        else if(rsl == "abs15" && distances[i] == 195){
-            FitVars varsTMP = vars;
-            varsTMP.meanIni = 4.0;
-            varsTMP.mpvIni = 4.0;
-            tmpResults = CLG1(hists[i], outputFile, varsTMP, name); 
-        } 
-        else if(rsl == "abs15" && distances[i] == 225){
-            FitVars varsTMP = vars;
-            varsTMP.meanIni = 3.0;
-            varsTMP.mpvIni = 3.0;
-            tmpResults = CLG1(hists[i], outputFile, varsTMP, name); 
-        } 
-
-        else if(rsl == "abs25" && distances[i] == 115){
-            FitVars varsTMP = vars;
-            varsTMP.meanIni = 9.0;
-            varsTMP.mpvIni = 9.0;
-            tmpResults = CLG1(hists[i], outputFile, varsTMP, name); 
-        } 
-        else if(rsl == "abs25" && distances[i] == 175){
-            FitVars varsTMP = vars;
-            varsTMP.meanIni = 5.0;
+            varsTMP.meanIni = 0.0;
             varsTMP.mpvIni = 5.0;
             tmpResults = CLG1(hists[i], outputFile, varsTMP, name); 
         } 
 
-        else if(rsl == "abs30" && distances[i] == 125){
+        else if(rsl == "corsika_rsl70_abs20" && distances[i] == 65){
             FitVars varsTMP = vars;
-            varsTMP.meanIni = 9.0;
-            varsTMP.mpvIni = 9.0;
+            varsTMP.meanIni = 0.0;
+            varsTMP.mpvIni = 12.0;
             tmpResults = CLG1(hists[i], outputFile, varsTMP, name); 
         } 
-        else if(rsl == "abs30" && distances[i] == 145){
+        else if(rsl == "corsika_rsl70_abs20" && distances[i] == 145){
             FitVars varsTMP = vars;
-            varsTMP.meanIni = 7.0;
-            varsTMP.mpvIni = 7.0;
-            tmpResults = CLG1(hists[i], outputFile, varsTMP, name); 
-        } 
-        else if(rsl == "abs30" && distances[i] == 235){
-            FitVars varsTMP = vars;
-            varsTMP.meanIni = 3.0;
-            varsTMP.mpvIni = 3.0;
+            varsTMP.meanIni = 0.0;
+            varsTMP.meanMin = 0.0;
+            varsTMP.meanMax = 0.0;
+            varsTMP.mpvIni = 5.5;
             tmpResults = CLG1(hists[i], outputFile, varsTMP, name); 
         } 
 
+        else if(rsl == "corsika_rsl130_abs20" && distances[i] == 115){
+            FitVars varsTMP = vars;
+            varsTMP.meanIni = 0.0;
+            varsTMP.mpvIni = 7.5;
+            tmpResults = CLG1(hists[i], outputFile, varsTMP, name); 
+        } 
+        else if(rsl == "corsika_rsl130_abs20" && distances[i] == 145){
+            FitVars varsTMP = vars;
+            varsTMP.meanIni = 0.0;
+            varsTMP.meanMin = 0.0;
+            varsTMP.meanMax = 0.0;
+            varsTMP.mpvIni = 5.5;
+            tmpResults = CLG1(hists[i], outputFile, varsTMP, name); 
+        } 
+        else if(rsl == "corsika_rsl130_abs20" && distances[i] == 155){
+            FitVars varsTMP = vars;
+            varsTMP.meanIni = 0.0;
+            varsTMP.mpvIni = 5.0;
+            tmpResults = CLG1(hists[i], outputFile, varsTMP, name); 
+        } 
+        else if(rsl == "corsika_rsl130_abs20" && distances[i] == 235){
+            FitVars varsTMP = vars;
+            varsTMP.meanIni = 0.0;
+            varsTMP.meanMin = 0.0;
+            varsTMP.meanMax = 0.0;
+            varsTMP.mpvIni = 3.3;
+            tmpResults = CLG1(hists[i], outputFile, varsTMP, name); 
+        } 
+
+        else if(rsl == "corsika_rsl150_abs20" && distances[i] == 145){
+            FitVars varsTMP = vars;
+            varsTMP.meanIni = 0.0;
+            varsTMP.meanMin = 0.0;
+            varsTMP.meanMax = 0.0;
+            varsTMP.mpvIni = 5.5;
+            tmpResults = CLG1(hists[i], outputFile, varsTMP, name); 
+        } 
+        else if(rsl == "corsika_rsl150_abs20" && distances[i] == 155){
+            FitVars varsTMP = vars;
+            varsTMP.meanIni = 0.0;
+            varsTMP.mpvIni = 5.0;
+            tmpResults = CLG1(hists[i], outputFile, varsTMP, name); 
+        } 
+        else if(rsl == "corsika_rsl150_abs20" && distances[i] == 175){
+            FitVars varsTMP = vars;
+            varsTMP.meanIni = 0.0;
+            varsTMP.mpvIni = 4.5;
+            tmpResults = CLG1(hists[i], outputFile, varsTMP, name); 
+        } 
 
 
-
-        else{    
+        else{              
             tmpResults = CLG1(hists[i], outputFile, vars, name);//core, fit function---
         }
         //------------------------------------------------------------
@@ -788,11 +831,11 @@ void slice_fitTMP(const std::string& rsl){
 //New Main function========================================
 void slice_fit(){
 
-    slice_fitTMP("abs10");
-    slice_fitTMP("abs15");
-    slice_fitTMP("abs25");
-    slice_fitTMP("abs30");      
-//    slice_fitTMP("rsl150");    
+//    slice_fitTMP("corsika_rsl100_abs20");
+//    slice_fitTMP("corsika_rsl50_abs20");
+//    slice_fitTMP("corsika_rsl70_abs20");
+//    slice_fitTMP("corsika_rsl130_abs20");      
+    slice_fitTMP("corsika_rsl150_abs20");    
 
 }
 //=========================================================

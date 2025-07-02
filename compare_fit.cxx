@@ -119,7 +119,7 @@ void ChebyshevFit(TGraphErrors* graph, double minX, double maxX) {
 
 
 
-//===tmp main function=========================================================
+//===tmp main function================================================
 void compare_fit_TMP(const std::string& path, double fitRange1, double fitRange2){
 
     TFile *file = TFile::Open((path + "fitCLG1_compare.root").c_str(), "UPDATE");
@@ -271,5 +271,5 @@ void compare_fit_TMP(const std::string& path, double fitRange1, double fitRange2
 //===Main Function================================
 void compare_fit(){
 
-    compare_fit_TMP("/Users/shuaixiangzhang/Work/current/FNAL_Work2024/rsl_analyses/v4_analysis/results/fit_Develop_slice10cm/cathode/", 50.0, 250.0);
+    compare_fit_TMP("/Users/shuaixiangzhang/Work/current/FNAL_Work2024/rsl_analyses/new_20250127/rsl_compare_result/results/combined_3k/fitted_results/cathode/", 50.0, 250.0);
 }

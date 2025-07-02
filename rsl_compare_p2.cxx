@@ -52,12 +52,12 @@ void rsl_compareTMP(const std::string& path){
 
     const int num = 30; //num of slices---
 
-    std::string inputFile99 = path + "/rsl99_fitCLG1.txt";
+    std::string inputFile99 = path + "/corsika_rsl100_abs20_fitCLG1.txt";
 
-    std::string inputFile50 = path + "/abs10_fitCLG1.txt";
-    std::string inputFile70 = path + "/abs15_fitCLG1.txt";
-    std::string inputFile130 = path + "/abs25_fitCLG1.txt";
-    std::string inputFile150 = path + "/abs30_fitCLG1.txt";
+    std::string inputFile50 = path + "/corsika_rsl50_abs20_fitCLG1.txt";
+    std::string inputFile70 = path + "/corsika_rsl70_abs20_fitCLG1.txt";
+    std::string inputFile130 = path + "/corsika_rsl130_abs20_fitCLG1.txt";
+    std::string inputFile150 = path + "/corsika_rsl150_abs20_fitCLG1.txt";
 
 
     double dis99[num];
@@ -151,7 +151,7 @@ void rsl_compareTMP(const std::string& path){
 
 
     //Drawing 1-------------------------------------------------------------------
-    TCanvas canvas("fitCompare", "Different ABSs", 800, 600);
+    TCanvas canvas("fitCompare", "Different RSLs", 800, 600);
     TLegend* legend = new TLegend(0.6, 0.6, 0.9, 0.9);
 
     //RSL99
@@ -207,11 +207,11 @@ void rsl_compareTMP(const std::string& path){
     scatterGraph150->SetMarkerColor(kOrange);
     scatterGraph150->Draw("P SAME");
     
-    legend->AddEntry(scatterGraph150, "Abs = 10m", "pe");
-    legend->AddEntry(scatterGraph130, "Abs = 15m", "pe");
-    legend->AddEntry(scatterGraph, "Abs = 20m", "pe");
-    legend->AddEntry(scatterGraph70, "Abs = 25m", "pe");
-    legend->AddEntry(scatterGraph50, "Abs = 30m", "pe");
+    legend->AddEntry(scatterGraph150, "RSL = 150cm", "pe");
+    legend->AddEntry(scatterGraph130, "RSL = 130cm", "pe");
+    legend->AddEntry(scatterGraph, "RSL = 100cm", "pe");
+    legend->AddEntry(scatterGraph70, "RSL = 70cm", "pe");
+    legend->AddEntry(scatterGraph50, "RSL = 50cm", "pe");
     legend->Draw();
 
 
@@ -228,7 +228,7 @@ void rsl_compareTMP(const std::string& path){
 
 
 //Drawing 2-------------------------------------------------------------------
-    TCanvas canvas2("fitDiff", "Different ABSs", 800, 600);
+    TCanvas canvas2("fitDiff", "Different RSLs", 800, 600);
     TLegend* legend2 = new TLegend(0.6, 0.6, 0.9, 0.9);
 
     double diff50[num];//(mpv50 - mpv99)---
@@ -289,10 +289,10 @@ void rsl_compareTMP(const std::string& path){
     graphDiff150->SetMarkerColor(kOrange);
     graphDiff150->Draw("P SAME");
     
-    legend2->AddEntry(graphDiff50, "Abs10 - Abs20", "pe");
-    legend2->AddEntry(graphDiff70, "Abs15 - Abs20", "pe");
-    legend2->AddEntry(graphDiff130, "Abs25 - Abs20", "pe");
-    legend2->AddEntry(graphDiff150, "Abs30 - Abs20", "pe");
+    legend2->AddEntry(graphDiff50, "RSL50 - RSL100", "pe");
+    legend2->AddEntry(graphDiff70, "RSL70 - RSL100", "pe");
+    legend2->AddEntry(graphDiff130, "RSL130 - RSL100", "pe");
+    legend2->AddEntry(graphDiff150, "RSL150 - RSL100", "pe");
     legend2->Draw();
 
 
@@ -409,10 +409,10 @@ void rsl_compareTMP(const std::string& path){
     graphBias130->Draw("P SAME");
     graphBias150->Draw("P SAME");
 
-    legend3_All->AddEntry(graphBias50, "Abs10", "pe");
-    legend3_All->AddEntry(graphBias70, "Abs15", "pe");
-    legend3_All->AddEntry(graphBias130, "Abs25", "pe");
-    legend3_All->AddEntry(graphBias150, "Abs30", "pe");
+    legend3_All->AddEntry(graphBias50, "RSL50", "pe");
+    legend3_All->AddEntry(graphBias70, "RSL70", "pe");
+    legend3_All->AddEntry(graphBias130, "RSL130", "pe");
+    legend3_All->AddEntry(graphBias150, "RSL150", "pe");
     legend3_All->Draw();
 
 
@@ -444,7 +444,7 @@ void rsl_compareTMP(const std::string& path){
 //==========Main Function===============================================
 void rsl_compare_p2(){
 
-    rsl_compareTMP("/Users/shuaixiangzhang/Work/current/FNAL_Work2024/rsl_analyses/v4_analysis/abs_explore/results/e67_3000events_crtCut/fit_results/p2");
+    rsl_compareTMP("/Users/shuaixiangzhang/Work/current/FNAL_Work2024/rsl_analyses/new_20250127/rsl_compare_result/results/combined_3k/fitted_results/p2");
         
 
 }

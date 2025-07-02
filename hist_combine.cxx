@@ -8,24 +8,24 @@
 int hist_combine(){
     //Input & output root files===========================
 
-    string rslxx ="abs30";
+    string rslxx ="corsika_rsl150_abs20";
 
     //Open the first ROOT file---
-    TFile *file0 = new TFile("../results/tmp/Combine_"+TString(rslxx)+"_1000num3_e67_hist.root", "READ");
+    TFile *file0 = new TFile("/Users/shuaixiangzhang/Work/current/FNAL_Work2024/rsl_analyses/new_20250127/rsl_compare_result/results/tmp/Combine_"+TString(rslxx)+"_hist.root", "READ");
     if (!file0 || file0->IsZombie()) {
         std::cerr << "Error: Unable to open file1.root" << std::endl;
         return 1;
     }
-    //Open the second root file---
-    TFile *file1 = new TFile("../results/tmp/Combine_"+TString(rslxx)+"_1000num2_e67_hist.root", "READ");
-    TFile *file2 = new TFile("../results/tmp/Combine_"+TString(rslxx)+"_1000num3_e67_hist.root", "READ");
+    //Open the second & third root file---
+    TFile *file1 = new TFile("/Users/shuaixiangzhang/Work/current/FNAL_Work2024/rsl_analyses/new_20250127/rsl_compare_result/results/tmp/Combine_"+TString(rslxx)+"_2_hist.root", "READ");
+    TFile *file2 = new TFile("/Users/shuaixiangzhang/Work/current/FNAL_Work2024/rsl_analyses/new_20250127/rsl_compare_result/results/tmp/Combine_"+TString(rslxx)+"_3_hist.root", "READ");
 
 
 
     //Output location:------------
-    string output_path = "/Users/shuaixiangzhang/Work/current/FNAL_Work2024/rsl_analyses/v4_analysis/abs_explore/results/e67_3000events_crtCut/";
+    string output_path = "/Users/shuaixiangzhang/Work/current/FNAL_Work2024/rsl_analyses/new_20250127/rsl_compare_result/results/combined_3k/";
 
-    string output_name = rslxx + "_3000num_e67_crtCut.root";
+    string output_name = rslxx + "_3000num_crtCut.root";
     //===================================================
 
 
